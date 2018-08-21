@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fumamx-client</title>
+    <%
+      var _config = {}
+      if (process.env.STAGE_ENV === 'dev') {
+        _config.domain = 'https://alph.laifuyun.com'
+      } else if (process.env.STAGE_ENV === 'test') {
+        _config.domain = 'https://alph.laifuyun.com'
+      }else if (process.env.STAGE_ENV === 'sim') {
+        _config.domain = 'https://alph.laifuyun.com'
+      } else if (process.env.STAGE_ENV === 'prod') {
+        _config.domain = 'https://fumamx.com'
+      }
+    %>
+    <script src="<%= _config.domain %>/i18n/js/i18n.js"></script>
+    <% if (htmlWebpackPlugin.options.nodeModules) { %>
+      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+      <script>
+        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+      </script>
+    <% } %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- Set `__static` path to static files in production -->
+    <script>
+      if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+    </script>
+
+    <!-- webpack builds are automatically injected -->
+    <script>
+      // Display the current version
+      let version = window.location.hash.substring(1);
+      console.log(version)
+      // Listen for messages
+      const {ipcRenderer} = require('electron');
+      ipcRenderer.on('message', function(event, text) {
+        console.log(text)
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+//flex
+.flex() {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-direction: row;
+}
+
+//placeholder颜色
+.placeholderColor(@color) {
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+        color: @color;
+    }
+    input:-moz-placeholder,
+    textarea:-moz-placeholder {
+        color: @color;
+    }
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
+        color: @color;
+    }
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+        color: @color;
+    }
+}
+
+//设置背景渐变
+.background-gradient(@startColor: #FFFFFF, @endColor: #FFFFFF, @startPercent: 0%, @endPercent: 100%) {
+    background-image: -webkit-gradient(linear, left @startPercent, left @endPercent, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-linear-gradient(top, @startColor, @startPercent, @endColor, @endPercent); // Safari 5.1+, Chrome 10+
+    background-image: -moz-linear-gradient(top, @startColor @startPercent, @endColor @endPercent); // FF 3.6+
+    background-image: linear-gradient(to bottom, @startColor @startPercent, @endColor @endPercent); // Standard, IE10
+    background-repeat: repeat-x;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor))); // for lt IE10
+}
+
+//设置背景透明
+.background-rgba(@color: rgba(0, 0, 0, .35)) {
+    background: @color;
+    filter: e(%("progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='%d', EndColorStr='%d')", argb(@color), argb(@color)));
+    &:nth-of-type(1n) {
+        // for gt IE8, 阻止背景叠加
+        filter: none\9;
+    }
+}
+
+//块级化并居中类
+.center-block() {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+//显示方式类
+.inline-block() {
+    display: inline-block;
+    *display: inline; //margin-right : -3px ; 元素之间显示间隙，同时没有删除空格的时候就这样写
+    *zoom: 1;
+}
+
+//清除浮动类
+.clearfix() {
+    &:after {
+        clear: both;
+        content: " ";
+        display: block;
+        font-size: 0;
+        height: 0;
+        visibility: hidden;
+    }
+    *zoom: 1; // fix for IE6/7
+}
+
+.fit-height() {
+    overflow: auto;
+    zoom: 1;
+}
+
+//文本溢出省略号
+.ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
